@@ -7,7 +7,7 @@ install:
   - pip install codecov
 
 script:
-  - coverage run tests/tests_functions.py
+  - py.test --cov-report term --cov=mastermind tests/tests_functions
 
 after_success:
 - codecov
