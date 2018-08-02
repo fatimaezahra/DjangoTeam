@@ -7,7 +7,7 @@ def get_variables():
     start_url = base_url + 'api/start'
     test_url = base_url + 'api/test'
     TOKEN = 'tokendj'
-    size = 8
+    size = 28
     nb_api_calls = 0
     return start_url, test_url, TOKEN, size, nb_api_calls
 
@@ -17,10 +17,8 @@ def call_test_side_effect(param):
     i = 1
     for el in param:
         if el in '12345':
-            if i == int(el):
-                return_dict["good"] += 1
-            else:
-                return_dict["wrong_place"] += 1
+            return_dict["good"] += (i == int(el))
+            return_dict["wrong_place"] += (i != int(el))
         i += 1
     return_str = str(return_dict)
     return_str = return_str.replace('\'', '"')
@@ -55,21 +53,25 @@ def to_dict_result(result):
 
 
 def get_valid_numbers(size, call_test_api=call_test_api):
+    chars = [str(i) for i in range(10)]
+    chars.extend([chr(i) for i in range(65, 91)])
+    chars.extend([chr(i) for i in range(97, 123)])
     valid = []
     i = 0
     while len(valid) < size:
-        test_string = str(i) * size
+        test_string = chars[i] * size
         result = to_dict_result(call_test_api(test_string))
         good = result['good']
-        valid.extend([i] * good)
+        valid.extend([chars[i]] * good)
         i += 1
     return valid
 
 
 def get_right_position(nb, indices, call_test_api=call_test_api, size=5):
-    test_numbers = ''.join([chr(i+97) for i in range(size)])
+    tab = ['|'] * size
     for i in indices:
-        new_numbers = test_numbers.replace(chr(i+97), nb)
+        tab[i] = str(nb)
+        new_numbers = ''.join([el for el in tab])
         result = to_dict_result(call_test_api(new_numbers))
         if result['good']:
             return i
@@ -94,4 +96,7 @@ if __name__ == '__main__':
         size = main_info['size']
 
     result = get_solution(size)
-    call_test_api(''.join([str(el) for el in result]))
+    print(result, nb_api_calls)
+    #call_test_api(''.join([str(el) for el in result]))
+
+111111111111111111111111111111

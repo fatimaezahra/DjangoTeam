@@ -59,13 +59,13 @@ def test_get_right_position():
 
 def test_get_solution():
     result_list = get_solution(5, call_test_side_effect)
-    assert result_list == [1, 2, 3, 4, 5]
+    assert result_list == ['1', '2', '3', '4', '5']
 
 
 def test_init_variables():
     variables = get_variables()
     assert variables == ('http://172.16.37.129/api/start',
                          'http://172.16.37.129/api/test',
-                         'tokendj', 8, 0)
+                         'tokendj', 28, 0)
 
 
