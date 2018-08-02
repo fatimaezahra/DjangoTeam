@@ -67,7 +67,8 @@ def get_valid_numbers(size, call_test_api=call_test_api):
     return valid
 
 
-def get_pos(indices, nb, tab, left=0, right=5, call_test_api=call_test_api, size=5):
+def get_pos(indices, nb, tab, left=0, right=5,
+            call_test_api=call_test_api, size=5):
     if left == right - 1:
         return left
     middle = (left + right) // 2
@@ -75,7 +76,7 @@ def get_pos(indices, nb, tab, left=0, right=5, call_test_api=call_test_api, size
     result = to_dict_result(call_test_api(new_numbers))
     if result['good']:
         for i in range((left + middle) // 2, middle):
-             tab[i] = '|'
+            tab[i] = '|'
         return get_pos(indices, nb, tab, left, middle, call_test_api, size)
     else:
         for i in range(middle, (middle + right) // 2):
@@ -122,4 +123,3 @@ if __name__ == '__main__':
 
     result = get_solution(size)
     call_test_api(''.join([str(el) for el in result]))
-
