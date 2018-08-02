@@ -94,5 +94,4 @@ if __name__ == '__main__':
         size = main_info['size']
 
     result = get_solution(size)
-    #call_test_api(''.join([str(el) for el in result]))
-
+    call_test_api(''.join([str(el) for el in result]))
