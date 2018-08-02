@@ -67,6 +67,24 @@ def get_valid_numbers(size, call_test_api=call_test_api):
     return valid
 
 
+def get_pos(indices, nb, tab, left=0, right=5, call_test_api=call_test_api, size=5):
+    if left == right - 1:
+        return left
+    middle = (left + right) // 2
+    new_numbers = ''.join([el for el in tab])
+    result = to_dict_result(call_test_api(new_numbers))
+    if result['good']:
+        for i in range((left + middle) // 2, middle):
+             tab[i] = '|'
+        return get_pos(indices, nb, tab, left, middle, call_test_api, size)
+    else:
+        for i in range(middle, (middle + right) // 2):
+            if i not in indices:
+                tab[i] = str(nb)
+            else:
+                tab[i] = '|'
+        return get_pos(indices, nb, tab, middle, right, call_test_api, size)
+
 
 def get_right_position(nb, indices, call_test_api=call_test_api, size=5):
     tab = ['|'] * size
@@ -81,11 +99,17 @@ def get_right_position(nb, indices, call_test_api=call_test_api, size=5):
 def get_solution(size, call_test_api=call_test_api):
     valid_numbers = get_valid_numbers(size, call_test_api)
     result_list = [0 for i in range(size)]
-    indices = [i for i in range(size)]
+
+    indices = []
 
     for nb in valid_numbers:
-        position = get_right_position(str(nb), indices, call_test_api, size)
-        indices.remove(position)
+        middle = size // 2
+
+        tab = [str(nb)] * middle + ['|'] * (size - middle)
+        for i in indices:
+            tab[i] = '|'
+        position = get_pos(indices, nb, tab, 0, size, call_test_api, size)
+        indices.append(position)
         result_list[position] = nb
     return result_list
 
@@ -97,6 +121,5 @@ if __name__ == '__main__':
         size = main_info['size']
 
     result = get_solution(size)
-    print(result, nb_api_calls)
     call_test_api(''.join([str(el) for el in result]))
 
