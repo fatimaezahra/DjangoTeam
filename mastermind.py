@@ -67,6 +67,7 @@ def get_valid_numbers(size, call_test_api=call_test_api):
     return valid
 
 
+
 def get_right_position(nb, indices, call_test_api=call_test_api, size=5):
     tab = ['|'] * size
     for i in indices:
@@ -97,6 +98,5 @@ if __name__ == '__main__':
 
     result = get_solution(size)
     print(result, nb_api_calls)
-    #call_test_api(''.join([str(el) for el in result]))
+    call_test_api(''.join([str(el) for el in result]))
 
-111111111111111111111111111111
